@@ -4,7 +4,7 @@ import {
   faCircle,
   faPaperPlane,
   faAngleDown
-} from '@fortawesome/pro-duotone-svg-icons'
+} from '@fortawesome/free-solid-svg-icons'
 import {
   faFacebookSquare,
   faTwitter,
