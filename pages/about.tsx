@@ -32,6 +32,9 @@ const Component: React.FC<ComponentProps> = (props) => (
     />
     <Logo className="logo" />
     <div className="margin line" />
+    <Outline className="wrapper" />
+    <div className="margin line" />
+    <div className="margin line" />
     <Lead className="wrapper">
       リーディング＆カンパニーは東京を拠点とするマーケティング会社です。マーケティング記事の作成を中心にサイト制作、動画制作などを大企業から中小企業の法人様にご提供しております。
     </Lead>
@@ -126,9 +129,6 @@ const Component: React.FC<ComponentProps> = (props) => (
         <Button className="button">Coming Soon.</Button>
       </div>
     </div>
-    <div className="margin line" />
-    <div className="margin line" />
-    <Outline className="wrapper" />
     <div className="margin line" />
     <div className="margin line" />
     <OurClient className="wrapper" />
