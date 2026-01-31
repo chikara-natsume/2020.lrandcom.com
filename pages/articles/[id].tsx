@@ -12,6 +12,7 @@ import Head from '~/components/base/Head'
 import { usePageScroll } from '~/hooks/usePageScroll'
 import { setSlug } from '~/store/header'
 import { ArticleDetail } from '~/types'
+import { config } from '~/utils/config'
 // import { functions } from '~/utils/functions'
 import { styles } from '~/utils/styles'
 
@@ -20,7 +21,8 @@ type ComponentProps = { className: string } & ContainerProps
 
 const Component: React.FC<ComponentProps> = (props) => {
   const { asPath } = useRouter()
-  const thumbnailUrl = props.thumbnail?.url || '/images/base/ogp.png'
+  const thumbnailUrl =
+    props.thumbnail?.url || `${config.url.production}/images/base/ogp.png`
 
   const show = useMemo(() => {
     return (

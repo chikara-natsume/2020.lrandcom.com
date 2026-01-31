@@ -202,7 +202,9 @@ const StyledComponent = styled(Component)`
 
 const Container: React.FC<ContainerProps> = (props) => {
   const dispatch = useDispatch()
-  dispatch(setSlug('/ARTICLES'))
+  React.useEffect(() => {
+    dispatch(setSlug('/ARTICLES'))
+  }, [dispatch])
   usePageScroll()
   const sp = useSelector((state: StateTypes) => state.media.sp)
 

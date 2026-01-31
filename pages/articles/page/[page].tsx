@@ -26,6 +26,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
         destination: '/articles',
         permanent: false,
       },
+      revalidate: 1800,
     }
   }
   const offset = (currentPage - 1) * PAGE_SIZE
