@@ -21,7 +21,8 @@ type ComponentProps = { className: string } & ContainerProps
 
 const Component: React.FC<ComponentProps> = (props) => {
   const { asPath } = useRouter()
-  const thumbnailUrl =
+  const thumbnailUrl = props.thumbnail?.url || '/images/base/ogp.png'
+  const ogImageUrl =
     props.thumbnail?.url || `${config.url.production}/images/base/ogp.png`
 
   const show = useMemo(() => {
@@ -35,7 +36,7 @@ const Component: React.FC<ComponentProps> = (props) => {
   return (
     <div className={props.className}>
       <Head
-        image={thumbnailUrl}
+        image={ogImageUrl}
         title={`${props.title} / リーディング＆カンパニー株式会社`}
         type="article"
       />

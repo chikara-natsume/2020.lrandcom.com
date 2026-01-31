@@ -90,9 +90,9 @@ const Component: React.FC<Props> = (props) => (
       } / リーディング＆カンパニー株式会社`}
       type="website"
     />
-    {props.articles.map((article) => (
+    {props.articles.map((article, index) => (
       <React.Fragment key={article.id}>
-        {props.sp && <div className="divider" />}
+        {props.sp && index > 0 && <div className="divider" />}
         <Article article={article} className="article" />
       </React.Fragment>
     ))}
