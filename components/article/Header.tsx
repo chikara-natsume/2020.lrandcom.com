@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import Image from 'next/image'
 import React from 'react'
 import styled from 'styled-components'
 
@@ -18,7 +19,14 @@ type ComponentProps = {} & ContainerProps
 const Component: React.FC<ComponentProps> = (props) => (
   <div className={props.className}>
     <div className="thumbnail">
-      <img src={props.thumbnail} />
+      <Image
+        alt=""
+        layout="fill"
+        priority
+        objectFit="cover"
+        sizes="100vw"
+        src={props.thumbnail || '/images/base/ogp.png'}
+      />
       <div className="cover">
         <div className="publishedAt">{functions.date(props.publishedAt)}</div>
         <div className="title">{props.title}</div>
@@ -49,9 +57,7 @@ const StyledComponent = styled(Component)`
       height: 47.5rem;
     }
   }
-  > .thumbnail > img {
-    width: 100%;
-    height: 100%;
+  > .thumbnail img {
     object-fit: cover;
     opacity: 0.4;
   }

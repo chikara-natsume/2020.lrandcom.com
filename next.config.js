@@ -5,4 +5,7 @@ module.exports = {
   compiler: {
     styledComponents: true,
   },
+  images: {
+    domains: ['landc.microcms.io', 'images.microcms-assets.io'],
+  },
 }

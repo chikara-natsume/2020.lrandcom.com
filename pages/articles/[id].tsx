@@ -11,15 +11,16 @@ import Button from '~/components/base/Button'
 import Head from '~/components/base/Head'
 import { usePageScroll } from '~/hooks/usePageScroll'
 import { setSlug } from '~/store/header'
-import { ArticleTypes } from '~/types'
+import { ArticleDetail } from '~/types'
 // import { functions } from '~/utils/functions'
 import { styles } from '~/utils/styles'
 
-type ContainerProps = ArticleTypes
+type ContainerProps = ArticleDetail & { id: string }
 type ComponentProps = { className: string } & ContainerProps
 
 const Component: React.FC<ComponentProps> = (props) => {
   const { asPath } = useRouter()
+  const thumbnailUrl = props.thumbnail?.url || '/images/base/ogp.png'
 
   const show = useMemo(() => {
     return (
@@ -32,14 +33,14 @@ const Component: React.FC<ComponentProps> = (props) => {
   return (
     <div className={props.className}>
       <Head
-        image={props.thumbnail.url}
+        image={thumbnailUrl}
         title={`${props.title} / リーディング＆カンパニー株式会社`}
         type="article"
       />
       <Header
         className="header"
         publishedAt={props.published}
-        thumbnail={props.thumbnail.url}
+        thumbnail={thumbnailUrl}
         title={props.title}
       />
       {/* {show && (
@@ -169,7 +170,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
       thumbnail: thumbnail || { url: '' },
       title,
     },
-    revalidate: 10,
+    revalidate: 1800,
   }
 }
 
