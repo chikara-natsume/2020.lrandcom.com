@@ -15,6 +15,7 @@ export type MicroCMSListResponse<T> = {
   totalCount: number
   limit: number
   offset: number
+  error?: boolean
 }
 
 const buildQuery = (params: GetArticlesParams) => {
@@ -45,6 +46,7 @@ export default async (
       totalCount: 0,
       limit: params.limit ?? 0,
       offset: params.offset ?? 0,
+      error: true,
     }
   }
   return {

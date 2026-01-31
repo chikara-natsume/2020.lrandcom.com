@@ -31,13 +31,22 @@ export const getStaticProps: GetStaticProps = async (context) => {
   }
   const offset = (currentPage - 1) * PAGE_SIZE
 
-  const { contents, totalCount } = await api.getArticles({
+  const { contents, totalCount, error } = await api.getArticles({
     fields: ['id', 'title', 'published', 'thumbnail'],
     filters: 'hide[equals]false',
     limit: PAGE_SIZE,
     offset,
     orders: '-published',
   })
+  if (error) {
+    return {
+      redirect: {
+        destination: '/articles',
+        permanent: false,
+      },
+      revalidate: 60,
+    }
+  }
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
   if (currentPage > totalPages) {
     return { notFound: true, revalidate: 1800 }

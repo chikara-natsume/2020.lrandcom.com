@@ -6,6 +6,11 @@ module.exports = {
     styledComponents: true,
   },
   images: {
-    domains: ['landc.microcms.io', 'images.microcms-assets.io'],
+    domains: [
+      'landc.microcms.io',
+      'images.microcms-assets.io',
+      'lrandcom.com',
+      'www.lrandcom.com',
+    ],
   },
 }

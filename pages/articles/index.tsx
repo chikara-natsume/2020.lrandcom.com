@@ -6,13 +6,23 @@ import ArticlesListPage, { PAGE_SIZE } from '~/components/articles/ArticlesListP
 export default ArticlesListPage
 
 export const getStaticProps: GetStaticProps = async () => {
-  const { contents, totalCount } = await api.getArticles({
+  const { contents, totalCount, error } = await api.getArticles({
     fields: ['id', 'title', 'published', 'thumbnail'],
     filters: 'hide[equals]false',
     limit: PAGE_SIZE,
     offset: 0,
     orders: '-published',
   })
+  if (error) {
+    return {
+      props: {
+        articles: [],
+        currentPage: 1,
+        totalPages: 1,
+      },
+      revalidate: 60,
+    }
+  }
   const totalPages = Math.max(1, Math.ceil(totalCount / PAGE_SIZE))
   return {
     props: {
