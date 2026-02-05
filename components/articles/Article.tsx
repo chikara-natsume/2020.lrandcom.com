@@ -33,7 +33,10 @@ const Component: React.FC<ComponentProps> = (props) => (
           <div className="thumbnail">
             <Image
               alt=""
-              src={props.article.thumbnail?.url || '/images/base/ogp.png'}
+              src={functions.withImageParams(
+                props.article.thumbnail?.url || '/images/base/ogp.png',
+                { w: 600, h: 400, fit: 'crop', q: 60 }
+              )}
               layout="fill"
               objectFit="cover"
               sizes="(max-width: 768px) 100vw, 45vw"
