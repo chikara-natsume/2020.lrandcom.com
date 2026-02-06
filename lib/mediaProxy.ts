@@ -1,5 +1,4 @@
 import crypto from 'crypto'
-import type { ParsedUrlQuery } from 'querystring'
 
 import { config } from '~/utils/config'
 
@@ -16,6 +15,10 @@ type UnsignedMediaProxyParams = { u: string } & MediaTransformParams
 
 export type SignedMediaProxyParams = UnsignedMediaProxyParams & {
   sig: string
+}
+
+type MediaProxyQueryInput = {
+  [key: string]: string | string[] | undefined
 }
 
 export const MEDIA_PROXY_ALLOWED_QUERY_KEYS = [
@@ -225,7 +228,7 @@ export const buildSignedMediaProxyUrl = (
 }
 
 export const parseMediaProxyQuery = (
-  query: ParsedUrlQuery
+  query: MediaProxyQueryInput
 ):
   | { ok: true; params: SignedMediaProxyParams }
   | { ok: false; status: number; message: string } => {
