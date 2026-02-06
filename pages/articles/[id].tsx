@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux'
 import styled from 'styled-components'
 
 import { api } from '~/api'
+import { buildSignedMediaProxyUrl } from '~/lib/mediaProxy'
 import Header from '~/components/article/Header'
 import Button from '~/components/base/Button'
 import Head from '~/components/base/Head'
@@ -13,38 +14,28 @@ import { usePageScroll } from '~/hooks/usePageScroll'
 import { setSlug } from '~/store/header'
 import { ArticleDetail } from '~/types'
 import { config } from '~/utils/config'
-import { functions } from '~/utils/functions'
-// import { functions } from '~/utils/functions'
 import { styles } from '~/utils/styles'
 
 const enhanceBodyImages = (html: string): string => {
   return html.replace(
     /<img([^>]*?)src="([^"]+)"([^>]*)>/g,
     (_match, before, src, after) => {
-      const nextSrc = functions.withImageParams(src, {
-        w: 900,
+      const nextSrc = buildSignedMediaProxyUrl(src, {
+        w: 1200,
         fit: 'clamp',
-        q: 60,
+        q: 65,
       })
       return `<img${before}src="${nextSrc}"${after}>`
     }
   )
 }
 
-type ContainerProps = ArticleDetail & { id: string }
+type ContainerProps = ArticleDetail & { id: string; ogImageUrl: string }
 type ComponentProps = { className: string } & ContainerProps
 
 const Component: React.FC<ComponentProps> = (props) => {
   const { asPath } = useRouter()
   const thumbnailUrl = props.thumbnail?.url || '/images/base/ogp.png'
-  const ogImageUrl = props.thumbnail?.url
-    ? functions.withImageParams(props.thumbnail.url, {
-        w: 1200,
-        h: 630,
-        fit: 'crop',
-        q: 70,
-      })
-    : `${config.url.production}/images/base/ogp.png`
 
   const show = useMemo(() => {
     return (
@@ -57,7 +48,7 @@ const Component: React.FC<ComponentProps> = (props) => {
   return (
     <div className={props.className}>
       <Head
-        image={ogImageUrl}
+        image={props.ogImageUrl}
         title={`${props.title} / リーディング＆カンパニー株式会社`}
         type="article"
       />
@@ -185,13 +176,34 @@ export const getStaticProps: GetStaticProps = async (context) => {
     await api.getArticle({
       id: (id as string) || '',
     })
+  const ogImageUrl = thumbnail?.url
+    ? buildSignedMediaProxyUrl(
+        thumbnail.url,
+        {
+          w: 1200,
+          h: 630,
+          fit: 'crop',
+          q: 70,
+        },
+        { absolute: true }
+      )
+    : `${config.url.production}/images/base/ogp.png`
   return {
     props: {
       body: body ? enhanceBodyImages(body) : body,
       id: id || '',
+      ogImageUrl,
       published,
       publishedAt,
-      thumbnail: thumbnail || { url: '' },
+      thumbnail: thumbnail?.url
+        ? {
+            url: buildSignedMediaProxyUrl(thumbnail.url, {
+              w: 1400,
+              fit: 'clamp',
+              q: 70,
+            }),
+          }
+        : null,
       title,
     },
     revalidate: 1800,

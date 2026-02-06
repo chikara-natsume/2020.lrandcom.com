@@ -1,4 +1,5 @@
 import { MICROCMS_KEY } from '~/lib/constants'
+import { buildSignedMediaProxyUrl } from '~/lib/mediaProxy'
 import { ArticleListItem } from '~/types'
 import { request } from '~/utils/request'
 
@@ -53,7 +54,17 @@ export default async (
     ...response,
     contents: response.contents.map((article) => ({
       ...article,
-      thumbnail: article.thumbnail ?? null,
+      thumbnail: article.thumbnail?.url
+        ? {
+            ...article.thumbnail,
+            url: buildSignedMediaProxyUrl(article.thumbnail.url, {
+              w: 600,
+              h: 400,
+              fit: 'crop',
+              q: 60,
+            }),
+          }
+        : null,
     })),
   }
 }

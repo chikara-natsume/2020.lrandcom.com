@@ -25,11 +25,7 @@ const Component: React.FC<ComponentProps> = (props) => (
         priority
         objectFit="cover"
         sizes="100vw"
-        src={functions.withImageParams(props.thumbnail || '/images/base/ogp.png', {
-          w: 1200,
-          fit: 'crop',
-          q: 70,
-        })}
+        src={props.thumbnail || '/images/base/ogp.png'}
       />
       <div className="cover">
         <div className="publishedAt">{functions.date(props.publishedAt)}</div>

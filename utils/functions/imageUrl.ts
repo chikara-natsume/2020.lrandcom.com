@@ -5,13 +5,8 @@ type ImageParams = Partial<{
   fit: 'clip' | 'clamp' | 'crop' | 'max'
 }>
 
-const isMicroCMSImage = (url: string): boolean => {
-  return /microcms/i.test(url)
-}
-
 export const withImageParams = (url: string, params: ImageParams): string => {
   if (!url || url.startsWith('/')) return url
-  if (!isMicroCMSImage(url)) return url
   try {
     const parsed = new URL(url)
     Object.entries(params).forEach(([key, value]) => {
