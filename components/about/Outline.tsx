@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import Heading from '~/components/about/heading'
+import ABlank from '~/components/base/ABlank'
 import { config } from '~/utils/config'
 import { styles } from '~/utils/styles'
 
@@ -18,7 +19,14 @@ const Component: React.FC<ComponentProps> = (props) => (
         <React.Fragment key={index}>
           <dl>
             <dt>{row.head}</dt>
-            <dd>{row.data}</dd>
+            <dd>
+              {row.data}
+              {row.link && (
+                <ABlank className="link" href={row.link.href}>
+                  {row.link.text}
+                </ABlank>
+              )}
+            </dd>
           </dl>
         </React.Fragment>
       ))}
@@ -61,6 +69,9 @@ const StyledComponent = styled(Component)`
     width: 75%;
     ${styles.media.sp} {
       width: 70%;
+    }
+    > .link {
+      border-bottom: 1px solid;
     }
   }
 `
