@@ -47,9 +47,18 @@ export default async function handler(
       return
     }
 
+    const contentTypeHeader = upstreamResponse.headers['content-type']
     const contentType =
-      upstreamResponse.headers['content-type'] || 'application/octet-stream'
-    const contentLength = upstreamResponse.headers['content-length']
+      typeof contentTypeHeader === 'string'
+        ? contentTypeHeader
+        : 'application/octet-stream'
+    const contentLengthHeader = upstreamResponse.headers['content-length']
+    const contentLength =
+      typeof contentLengthHeader === 'string' ||
+      typeof contentLengthHeader === 'number' ||
+      Array.isArray(contentLengthHeader)
+        ? contentLengthHeader
+        : undefined
 
     res.setHeader('Cache-Control', CACHE_CONTROL)
     res.setHeader('Content-Type', contentType)
